@@ -6,6 +6,7 @@
 
   <groupId>betel-game-server</groupId>
   <artifactId>GameServer</artifactId>
+  <packaging>pom</packaging>
   <version>1.0</version>
   <build>
     <plugins>
@@ -19,6 +20,12 @@
       </plugin>
     </plugins>
   </build>
+  <modules>
+    <module>server-common</module>
+    <module>server-balance</module>
+    <module>server-account</module>
+    <module>server-gate</module>
+  </modules>
 
   <dependencies>
     <dependency>
@@ -27,4 +34,5 @@
       <version>1.0</version>
     </dependency>
   </dependencies>
+
 </project>
