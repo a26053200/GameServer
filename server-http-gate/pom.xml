@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>server-gate</artifactId>
+    <artifactId>server-http-gate</artifactId>
     <dependencies>
         <dependency>
             <groupId>betel-game-server</groupId>
@@ -36,7 +36,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>GateServer</mainClass>
+                            <mainClass>HttpGateServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -52,4 +52,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

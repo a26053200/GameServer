@@ -12,6 +12,7 @@ public class Account
     private String username;
     private String password;
     private String registerTime;
+    private String registerIp;
     private String lastLoginIp;
     private String lastLoginTime;
 
@@ -53,6 +54,16 @@ public class Account
     public void setRegisterTime(String registerTime)
     {
         this.registerTime = registerTime;
+    }
+
+    public String getRegisterIp()
+    {
+        return registerIp;
+    }
+
+    public void setRegisterIp(String registerIp)
+    {
+        this.registerIp = registerIp;
     }
 
     public String getLastLoginIp()

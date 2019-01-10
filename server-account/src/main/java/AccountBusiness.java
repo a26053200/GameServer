@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import beans.Account;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @ClassName: AccountBusiness
@@ -66,7 +67,7 @@ public class AccountBusiness extends Business<Account>
                     logger.info(String.format("用户:%s 登陆成功", username));
                     rspdMessage(session,ReturnCode.Login_success);
                     onLoginSuccess(session, account.getId());
-                    updateEntry(session);
+                    updateAccount(session,account.getId());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     rspdMessage(session,ReturnCode.Error_unknown);
@@ -97,7 +98,7 @@ public class AccountBusiness extends Business<Account>
     {
         String username = session.getRecvJson().getString(Field.USERNAME);
         String password = session.getRecvJson().getString(Field.PASSWORD);
-
+        String clientIpAddress = session.getRecvJson().getString(FieldName.CLIENT_IP);
         List<Account> allAccount = service.getViceEntrys(username);
         if (allAccount.size() > 0)
         {//已经注册过
@@ -110,8 +111,9 @@ public class AccountBusiness extends Business<Account>
             account.setUsername(username);
             account.setPassword(password);
             account.setRegisterTime(nowTime);
+            account.setRegisterIp(clientIpAddress);
             account.setLastLoginTime(nowTime);
-            account.setLastLoginIp(session.getContext().channel().remoteAddress().toString());
+            account.setLastLoginIp(clientIpAddress);
             service.addEntry(account);
             rspdMessage(session,ReturnCode.Register_success);
         }
@@ -125,15 +127,17 @@ public class AccountBusiness extends Business<Account>
         action.rspdClient(session, rspdJson);
     }
 
-    @Override
-    public Account updateEntry(Session session)
+    public void updateAccount(Session session, String accountId)
     {
-        Account account = service.getEntryById(session.getRecvJson().getString(FieldName.ID));
+        Account account = service.getEntryById(accountId);
         if(account != null)
         {
+            String clientIpAddress = session.getRecvJson().getString(FieldName.CLIENT_IP);
             account.setLastLoginTime(now());
-            account.setLastLoginIp(session.getContext().channel().remoteAddress().toString());
+            account.setLastLoginIp(clientIpAddress);
+            service.updateEntry(account);
+        }else{
+            logger.error("There is no account tha id = " + accountId);
         }
-        return account;
     }
 }

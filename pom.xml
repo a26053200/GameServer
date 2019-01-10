@@ -24,7 +24,7 @@
     <module>server-common</module>
     <module>server-balance</module>
     <module>server-account</module>
-    <module>server-gate</module>
+    <module>server-http-gate</module>
   </modules>
 
   <dependencies>
